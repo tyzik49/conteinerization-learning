@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redmine
+  namespace: gb4
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redmine
+  template:
+    metadata:
+      labels:
+        app: redmine
+    spec:
+      containers:
+      - image: redmine:4.1.1
+        name: redmine
+        env:
+        - name: REDMINE_DB_USERNAME
+          value: testuser
+        - name: REDMINE_DB_DATABASE
+          value: testdb
+        - name: REDMINE_DB_POSTGRES
+          value: database
+        - name: REDMINE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: REDMINE_DB_PASSWORD
+        - name: REDMINE_SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: REDMINE_SECRET_KEY_BASE
+        ports:
+        - containerPort: 3000
