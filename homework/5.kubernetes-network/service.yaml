@@ -11,3 +11,16 @@ spec:
   selector:
     app: postgres
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redmine
+  namespace: gb4
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: my-redmine
+  type: ClusterIP

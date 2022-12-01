@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redmine
+  name: my-redmine
   namespace: gb4
 spec:
   replicas: 1
@@ -10,31 +10,32 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: redmine
+      app: my-redmine
   template:
     metadata:
       labels:
-        app: redmine
+        app: my-redmine
     spec:
       containers:
       - image: redmine:4.1.1
         name: redmine
+        ports:
+        - containerPort: 3000
+          protocol: TCP
         env:
         - name: REDMINE_DB_USERNAME
           value: testuser
         - name: REDMINE_DB_DATABASE
           value: testdb
         - name: REDMINE_DB_POSTGRES
-          value: database
+          value: database.gb4
         - name: REDMINE_DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: my-secret
-              key: REDMINE_DB_PASSWORD
+              key: POSTGRES_PASSWORD
         - name: REDMINE_SECRET_KEY_BASE
           valueFrom:
             secretKeyRef:
               name: my-secret
               key: REDMINE_SECRET_KEY_BASE
-        ports:
-        - containerPort: 3000
