@@ -28,7 +28,7 @@ spec:
         - name: REDMINE_DB_DATABASE
           value: testdb
         - name: REDMINE_DB_POSTGRES
-          value: database.gb4
+          value: database
         - name: REDMINE_DB_PASSWORD
           valueFrom:
             secretKeyRef:
