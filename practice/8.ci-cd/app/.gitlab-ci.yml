@@ -14,12 +14,12 @@ test:
 
 build:
   stage: build
-  image: docker:19.03.12
+  image: docker:18-dind
   services:
-    - docker:19.03.12-dind
+    - name: registry.hub.docker.com/library/docker:18-dind
+      alias: docker
   variables:
-    DOCKER_DRIVER: overlay
-    DOCKER_HOST: tcp://docker:2375 
+    DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
